@@ -1,0 +1,2 @@
+# cp2k_molecular_dynamics_analysis_programs
+These are a set of programs (mainly written in modern Fortran 2008) to perform various types of analyses on molecular dynamics trajectories obtained from the CP2K program (see https://www.cp2k.org). The systems are often assumed to be aqueous but sometimes with a surface present or a solute. The programs are documented and relatively straightforward to follow.
