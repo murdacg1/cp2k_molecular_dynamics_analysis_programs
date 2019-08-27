@@ -1,0 +1,24 @@
+FC = g95
+
+OBJ = \
+common_data_mod.o \
+reading_mod.o \
+get_hbond_mod.o \
+hbond.o
+
+OP = -O0 -g -pg -ffree-form # -O2 -ffree-form
+
+BIN = hbond.x
+
+# =================================================================
+
+clean:
+	rm -f *.o *.mod *.x
+
+# =================================================================
+
+.f.o:
+	$(FC) -c $(OP) $<
+
+$(BIN): $(OBJ)
+	$(FC) $(OBJ) -o $(BIN)

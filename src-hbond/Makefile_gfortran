@@ -1,0 +1,24 @@
+FC = gfortran-mp-4.3
+
+OBJ = \
+common_data_mod.o \
+reading_mod.o \
+get_hbond_mod.o \
+hbond.o
+
+OP = -O0 -g -p -pg -ffree-form # -O2 -ffree-form
+
+BIN = hbond.x
+
+# =================================================================
+
+clean:
+	rm -f *.o *.mod *.x
+
+# =================================================================
+
+.f.o:
+	$(FC) -c $(OP) $<
+
+$(BIN): $(OBJ)
+	$(FC) $(OBJ) -o $(BIN)

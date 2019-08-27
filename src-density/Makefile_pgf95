@@ -1,0 +1,24 @@
+FC = pgf95
+
+OBJ = \
+common_data_mod.o \
+reading_mod.o \
+get_density_mod.o \
+density.o
+
+OP = -O2 -Mfreeform
+
+BIN = density.x
+
+# =================================================================
+
+clean:
+	rm -f *.o *.mod *.x
+
+# =================================================================
+
+.f.o:
+	$(FC) -c $(OP) $<
+
+$(BIN): $(OBJ)
+	$(FC) $(OBJ) -o $(BIN)

@@ -1,0 +1,101 @@
+        MODULE reading_mod
+
+        USE common_data_mod
+
+        IMPLICIT NONE
+
+        CONTAINS
+
+        SUBROUTINE reading(my_d, my_array, &
+          my_file)
+
+        INTEGER :: my_d
+        REAL(KIND=dp), DIMENSION(0:f) :: my_array
+        CHARACTER(len=80) my_file
+
+        INTEGER :: jf, jm, ja
+        INTEGER :: a_max_temp
+        REAL(KIND=dp) :: temp
+        REAL(KIND=dp), DIMENSION(:), ALLOCATABLE :: coor
+        CHARACTER(len=80) :: string80
+        CHARACTER(len=1) symbol
+
+        WRITE(6,'(2a)') '# SUBROUTINE = reading; filename = ', &
+          TRIM(my_file)
+        CALL FLUSH(6)
+
+        my_array = zero
+
+        ALLOCATE ( coor(d) )
+        coor = zero
+
+        OPEN(3,file=TRIM(my_file),status='unknown')
+
+        DO jf = 0, 77654 ! f
+          WRITE(6,*) 'jf = ', jf
+          CALL FLUSH(6)
+          READ(3,*) a_max_temp
+          WRITE(6,*) a_max_temp
+          CALL FLUSH(6)
+          READ(3,*) string80
+          WRITE(6,*) string80
+          CALL FLUSH(6)
+          DO jm = 1, m_w
+            DO ja = 1, a_w
+              READ(3,*) &
+                symbol, coor(:)
+            END DO
+          END DO
+!         DO jm = 1, m_s ! m_s is always 1
+            DO ja = 1, a_s
+              READ(3,*) &
+                symbol, coor(:)
+            END DO
+            my_array(jf) = coor(my_d) - middle ! last coor is the M3 virtual site = com of NO2
+!         END DO
+        END DO
+
+        DO jf = 77655, f
+          WRITE(6,*) 'jf = ', jf
+          CALL FLUSH(6)
+          READ(3,*) a_max_temp
+          WRITE(6,*) a_max_temp
+          CALL FLUSH(6)
+          READ(3,*) string80
+          WRITE(6,'(a)') string80
+          CALL FLUSH(6)
+          DO jm = 1, m_w
+            DO ja = 1, a_w
+              READ(3,*) &
+                symbol, coor(:)
+              WRITE(6,*) &
+                symbol, coor(:)
+              CALL FLUSH(6)
+            END DO
+          END DO
+!         DO jm = 1, m_s ! m_s is always 1
+            DO ja = 1, a_s
+              READ(3,*) &
+                symbol, coor(:)
+            END DO
+            my_array(jf) = coor(my_d) - middle ! last coor is the M3 virtual site = com of NO2
+!         END DO
+        END DO
+
+
+
+
+
+
+
+        CLOSE(3)
+
+        DEALLOCATE ( coor )
+
+        WRITE(6,*)
+        WRITE(6,*)
+        CALL FLUSH(6)
+
+        END SUBROUTINE reading
+
+        END MODULE reading_mod
